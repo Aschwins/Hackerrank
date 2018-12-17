@@ -33,7 +33,7 @@ def get_tz_diff(str1, str2):
         real_diff = -1* (int(diff / 100) * 60 * 60 + diff % 100 * 60)
     else:
         real_diff = int(diff / 100) * 60 * 60 + diff % 100 * 60
-    return real_diff
+    return -1 * real_diff
 
 # This function counts the amount of leap years between to given years
 def countleapYears(year1, year2):
@@ -42,7 +42,7 @@ def countleapYears(year1, year2):
         for i in range(year1, year2):
             if isleapYear(i):
                 count += 1
-        return count
+        return -count
     else:
         for i in range(year2, year1):
             if isleapYear(i):
@@ -99,6 +99,7 @@ def monthdiffinDays(month1, month2):
 def time_delta(t1, t2):
     print("\n")
     n_leapyears = countleapYears(int(t1[11:15]), int(t2[11:15]))
+    print("Number of leapyears: %s"%n_leapyears)
     d_years = (int(t1[11:15]) - int(t2[11:15])) * 365 * 24 * 60 * 60 + n_leapyears * 24 * 60 * 60
     print("Year difference in seconds: %s"%d_years)
 
