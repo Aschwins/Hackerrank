@@ -3,3 +3,11 @@
 "Sun 10 May 2015 13:54:36 -0000"
 "Sat 02 May 2015 19:54:36 +0530"
 "Fri 01 May 2015 13:54:36 -0000"
+
+Year difference in seconds: 0
+Month difference in seconds: 0
+Day difference in seconds: 86400
+Hour difference in seconds: 21600
+Minute difference in seconds: 0
+Second difference in seconds: 0
+Timezone difference in seconds: 19800
