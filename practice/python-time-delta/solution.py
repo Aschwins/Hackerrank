@@ -8,7 +8,7 @@ import random
 import re
 import sys
 
-# Set export $OUTPUT_PATH = PATH
+# Set export OUTPUT_PATH=PATH
 # OUTPUT_PATH = '/Users/aschwinschilperoort/Programming/Github/Hackerrank/practice/python-time-delta/output.txt'
 
 # Complete the time_delta function below.
@@ -90,7 +90,7 @@ def monthdiffinDays(month1, month2):
     if (month2 > month1):
         for i in range(month1, month2):
             days += monthtoDays(i)
-        return days
+        return -days
     else:
         for i in range(month2, month1):
             days += monthtoDays(i)
@@ -103,20 +103,22 @@ def time_delta(t1, t2):
     d_years = (int(t1[11:15]) - int(t2[11:15])) * 365 * 24 * 60 * 60 + n_leapyears * 24 * 60 * 60
     print("Year difference in seconds: %s"%d_years)
 
-    # Check if the month difference contains a leapday.
+    # Check if biggest year is a leapyear and if it contains a leapday
     if (int(t1[11:15]) < int(t2[11:15])):
-        if (isleapYear(int(t2[11:15])) & (mon_to_num(t1[7:10]) <=2) & (mon_to_num(t2[7:10]) >= 3)):
-            leapday = 1
+        if ((isleapYear(int(t2[11:15]))) & (mon_to_num(t2[7:10]) >= 3)):
+            leapday = -1
         else:
             leapday = 0
     else:
-        if (isleapYear(int(t1[11:15])) & (mon_to_num(t2[7:10]) <=2) & (mon_to_num(t1[7:10]) >= 3)):
+        if ((isleapYear(int(t1[11:15]))) & (mon_to_num(t1[7:10]) >= 3)):
             leapday = 1
         else:
             leapday = 0
+    # What if years are equal?
 
     d_months = (monthdiffinDays(mon_to_num(t1[7:10]),mon_to_num(t2[7:10]))) * 24 * 60 * 60 + leapday * 24 * 60 * 60
     print("Month difference in seconds: %s"%d_months)
+    # What if biggest year ends in month february?
 
     d_days = (int(t1[4:6]) - int(t2[4:6])) * 24 * 60 * 60
     print("Day difference in seconds: %s"%d_days)
@@ -127,7 +129,7 @@ def time_delta(t1, t2):
     d_minutes = (int(t1[19:21]) - int(t2[19:21])) * 60
     print("Minute difference in seconds: %s"%d_minutes)
 
-    d_seconds = int(t1[22:24]) - int(t1[22:24])
+    d_seconds = int(t1[22:24]) - int(t2[22:24])
     print("Second difference in seconds: %s"%d_seconds)
 
     d_timezone = get_tz_diff(t1[26:], t2[26:])
