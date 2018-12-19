@@ -30,7 +30,7 @@ def get_tz_diff(str1, str2):
     diff = int(str1)-int(str2)
     if (diff < 0):
         diff = diff * -1
-        real_diff = -1* (int(diff / 100) * 60 * 60 + diff % 100 * 60)
+        real_diff = -1 * (int(diff / 100) * 60 * 60 + diff % 100 * 60)
     else:
         real_diff = int(diff / 100) * 60 * 60 + diff % 100 * 60
     return -1 * real_diff
@@ -114,11 +114,26 @@ def time_delta(t1, t2):
             leapday = 1
         else:
             leapday = 0
+
     # What if years are equal?
+
+    # What if biggest year ends in month february?
 
     d_months = (monthdiffinDays(mon_to_num(t1[7:10]),mon_to_num(t2[7:10]))) * 24 * 60 * 60 + leapday * 24 * 60 * 60
     print("Month difference in seconds: %s"%d_months)
-    # What if biggest year ends in month february?
+
+
+    # What if the smallest year starts after february and is a leapyear??
+    if (int(t1[11:15]) < int(t2[11:15])):
+        if ((isleapYear(int(t1[11:15]))) & (mon_to_num(t1[7:10]) >= 3)):
+            leapcor = 1
+        else:
+            leapcor = 0
+    else:
+        if ((isleapYear(int(t2[11:15]))) & (mon_to_num(t1[7:10]) >= 3)):
+            leapcor = -1
+        else:
+            leapcor = 0
 
     d_days = (int(t1[4:6]) - int(t2[4:6])) * 24 * 60 * 60
     print("Day difference in seconds: %s"%d_days)
@@ -132,7 +147,7 @@ def time_delta(t1, t2):
     d_seconds = int(t1[22:24]) - int(t2[22:24])
     print("Second difference in seconds: %s"%d_seconds)
 
-    d_timezone = get_tz_diff(t1[26:], t2[26:])
+    d_timezone = get_tz_diff(t1[25:], t2[25:])
     print("Timezone difference in seconds: %s" %d_timezone)
 
     t_delta = abs(d_timezone + d_seconds + d_minutes + d_hours + d_days + d_months + d_years)
