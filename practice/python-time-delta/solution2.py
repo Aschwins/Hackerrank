@@ -9,7 +9,7 @@ import re
 import sys
 
 # Set export OUTPUT_PATH=PATH
-# OUTPUT_PATH = '/Users/aschwinschilperoort/Programming/Github/Hackerrank/practice/python-time-delta/output.txt'
+# OUTPUT_PATH='/Users/aschwinschilperoort/Programming/Github/Hackerrank/practice/python-time-delta/output.txt'
 
 # Complete the time_delta function below.
 
@@ -142,33 +142,6 @@ def daysinYear(year):
     else:
         return 365
 
-def dayDiff(sd, bd):
-    # sd = "YYYY-MM-DD"
-    # bd = "YYYY-MM-DD"
-    bd_year = int(bd[:4])
-    bd_month = int(bd[5:7])
-    bd_day = int(bd[8:10])
-    sd_year = int(sd[:4])
-    sd_month = int(sd[5:7])
-    sd_day = int(sd[8:10])
-    # remaining days in month
-    rdm = daysinMonth(sd_month, sd_year) - sd_day
-    # remaining days in year
-    rdy = 0
-    for i in range(sd_month + 1, 12+ 1):
-        rdy += daysinMonth(i, sd_year)
-    # delta year
-    dy = 0
-    for i in range(sd_year + 1, bd_year):
-        dy += daysinYear(i)
-    # delta month
-    dm = 0
-    for i in range(1, bd_month):
-        dm += daysinMonth(i, bd_year)
-    # delta day
-    dd = bd_day - 1
-    return rdm + rdy + dy + dm + dd
-
 def time_delta(date1, date2):
 
     # first we get a cleandate (cd)
@@ -189,8 +162,8 @@ def time_delta(date1, date2):
     else:
         return str(0)
 
-    # print("Biggest date converted to GMT: %s" %bd)
-    # print("Smallest date converted to GMT: %s" %sd)
+    #print("Biggest date converted to GMT: %s" %bd)
+    #print("Smallest date converted to GMT: %s" %sd)
 
 
     # Once we have the biggest date we can deduct!
@@ -207,46 +180,61 @@ def time_delta(date1, date2):
     sd_month = int(sd[5:7])
     sd_day = int(sd[8:10])
 
-    # We have to take into account 4 ways of dealing with leapyears:
-    # 1. sd contains leapday, bd contains leapday
-    # 2. sd contains leapday, bd doesn't contain leapday
-    # 3. sd doesn't contain leapday, bd contains leapday
-    # 4. sd doesn't contain leapday, bd doesn't contain leapday.
-
     # Hoeveel seconden hebben we nog over in de dag van de kleinste dag?
-    rsd = 86400 - sd_hour * 60 * 60 - sd_minute * 60 - sd_second
-    # print("Over in kleinste dag: %s"%rsd)
+    if ((bd_year != sd_year) | (bd_month != sd_month) | (sd_day != bd_day)):
+        rsd = 86400 - sd_hour * 60 * 60 - sd_minute * 60 - sd_second
+    else:
+        rsd = 0
+        print("Over in kleinste dag: %s"%rsd)
 
     # Hoeveel dagen hebben we nog over in de maand van de kleinste dag?
-    rdm = daysinMonth(sd_month, sd_year) - sd_day
-    if (rdm < 0):
+    if ((bd_year != sd_year) | (bd_month != sd_month)):
+        rdm = daysinMonth(sd_month, sd_year) - sd_day
+        if (rdm < 0):
+            rdm = 0
+    else:
         rdm = 0
-    print("Dagen over in de kleinste maand: %s"%rdm)
+    #print("Dagen over in de kleinste maand: %s"%rdm)
 
     # Hoeveel dagen hebben we nog over in het jaar van de kleinste dag?
-    rdy = 0
-    for i in range(sd_month + 1, 12 + 1):
-        rdy += daysinMonth(i, sd_year)
-    print("Dagen over tot het einde van het jaar: %s"%rdy)
+    if ((bd_year != sd_year)):
+        rdy = 0
+        for i in range(sd_month + 1, 12 + 1):
+            rdy += daysinMonth(i, sd_year)
+    else:
+        rdy = 0
+    #print("Dagen over tot het einde van het jaar: %s"%rdy)
     
     # Hoeveel jaren moeten we overbruggen tot het jaar van de grootste datum?
     dy = 0
     for i in range(sd_year + 1, bd_year):
         dy += daysinYear(i)
-    # print("Jaren in dagen te overbruggen tot het laatste jaar: %s"%dy)
+    #print("Jaren in dagen te overbruggen tot het laatste jaar: %s"%dy)
     
     # Hoeveel maanden moeten we overbruggen tot de maand van de grootste datum?
     dm = 0
-    for i in range(1, bd_month):
-        dm += daysinMonth(i, bd_year)
-    # print("Maanden in dagen te overbruggen tot de laatste maand: %s"%dm)
+    if ((bd_year != sd_year)):
+        for i in range(1, bd_month):
+            dm += daysinMonth(i, bd_year)
+    else:
+        for i in range(sd_month + 1, bd_month):
+            dm += daysinMonth(i, sd_year)
+    #print("Maanden in dagen te overbruggen tot de laatste maand: %s"%dm)
 
-    dd = bd_day - 1
-    # print("Aantal dagen in grootste datum: %s"%dd)
+    dd = 0
+    if ((bd_year != sd_year) | (bd_month != sd_month)):
+        dd = bd_day -  1
+    else:
+        for i in range(sd_day + 1, bd_day):
+            dd += 1
+    #print("Aantal dagen in grootste datum: %s"%dd)
 
     # Hoeveel seconden zitten er nog in de laatste dag?
-    rsd2 = bd_hour * 60 * 60 + bd_minute * 60 + bd_second
-    # print("Aantal seconden nog in de laatste dag: %s"%rsd2)
+    if ((bd_year != sd_year) | (bd_month != sd_month) | (bd_day != sd_day)):
+        rsd2 = bd_hour * 60 * 60 + bd_minute * 60 + bd_second
+    else:
+        rsd2 = (bd_hour - sd_hour) * 60 * 60 + (bd_minute - sd_minute) * 60 + (bd_second - sd_second) 
+    #print("Aantal seconden nog in de laatste dag: %s"%rsd2)
 
     return str(rsd + rdm * 24 * 60 * 60 + rdy * 24 * 60 * 60 + dy * 24 * 60 * 60 + dm * 24 * 60 * 60 + dd * 24 * 60 * 60 + rsd2)
 
