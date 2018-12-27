@@ -221,13 +221,13 @@ def time_delta(date1, date2):
     rdm = daysinMonth(sd_month, sd_year) - sd_day
     if (rdm < 0):
         rdm = 0
-    # print("Dagen over in de kleinste maand: %s"%rdm)
+    print("Dagen over in de kleinste maand: %s"%rdm)
 
     # Hoeveel dagen hebben we nog over in het jaar van de kleinste dag?
     rdy = 0
     for i in range(sd_month + 1, 12 + 1):
         rdy += daysinMonth(i, sd_year)
-    # print("Dagen over tot het einde van het jaar: %s"%rdy)
+    print("Dagen over tot het einde van het jaar: %s"%rdy)
     
     # Hoeveel jaren moeten we overbruggen tot het jaar van de grootste datum?
     dy = 0
