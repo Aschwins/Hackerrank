@@ -1,4 +1,4 @@
-# Split on a , or . 
+# Split on a , or . []
 
 regex_pattern = r"[\,\.]"	# Do not delete 'r'.
 
