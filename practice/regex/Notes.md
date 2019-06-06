@@ -53,6 +53,10 @@ The `?` character is used after another charadter to specify that the previous c
 ### `{m, n}` Minimum `m` and maximum `n` repititions.
 This character is used after another character to specify that the previous character can be matched a minimum of `m` and a maximum of `n` times.
 
+### `$` Dollar sign
+Makes the re begin at the end. Matches the end of the line instead of the beginning
+
+
 ## Compiling regular expressions
 
 One can put a regular expression in a variable to later match more easily.
@@ -90,3 +94,4 @@ r'\\section' = '\\\\section'
 
 `(?<=)` Look behind. Matches anything that comes next, but doesnt match anythin in this group.
 `(?<=-).+` Matches anything that comes after a `-`.
+
